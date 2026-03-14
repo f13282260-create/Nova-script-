@@ -103,7 +103,7 @@ EOF
 systemctl daemon-reload
 systemctl enable wings
 
-echo "Go To Admin/Nodes then go to your node/configuration then click on generate token copy panel link and token and also check the node id
+echo "Go To Admin/Nodes then go to your node/configuration then click on generate token copy panel link and token and also check the node id"
 
 sudo wings configure
 
