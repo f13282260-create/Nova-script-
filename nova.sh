@@ -1,24 +1,21 @@
 #!/bin/bash
 
-# root check
+# Root check
 if [ "$EUID" -ne 0 ]; then
-  echo "Run this script as root (sudo)"
-  exit
+echo "Please run as root"
+exit
 fi
 
-# colors
+# Colors
 BLUE="\033[1;34m"
 GREEN="\033[1;32m"
 CYAN="\033[1;36m"
 RESET="\033[0m"
 
-banner() {
+banner(){
 clear
 echo -e "$BLUE"
-
-cat << "EOF
-
-echo "======================================"
+cat << "EOF"
 
 ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗
 ████╗  ██║██╔═══██╗██║   ██║██╔══██╗
@@ -27,29 +24,25 @@ echo "======================================"
 ██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
 
-echo "======================================"
-
-       Nova Cloud Official Installer
+     Nova Cloud Official Installer
 
 EOF
-
 echo -e "$RESET"
 }
 
-menu() {
-echo -e "$RED"
-echo "=================================="
-echo " 1) Install Panel"
-echo " 2) Install Wings"
-echo " 3) Install SSL Certificate"
-echo " 4) Install Cloudflare Tunnel"
-echo " 5) Exit"
-echo "=================================="
+menu(){
+echo "================================"
+echo "1) Install Panel"
+echo "2) Install Wings"
+echo "3) Install SSL"
+echo "4) Install Cloudflare Tunnel"
+echo "5) Exit"
+echo "================================"
 }
 
-install_panel() {
+install_panel(){
 
-echo -e "${CYAN}Installing panel dependencies...${RESET}"
+echo -e "${CYAN}Installing Panel...${RESET}"
 
 apt update -y
 apt install -y nginx mysql-server curl tar unzip git php php-cli php-fpm php-mysql php-zip php-gd php-mbstring php-curl php-xml composer
@@ -67,14 +60,14 @@ composer install --no-dev --optimize-autoloader
 
 php artisan key:generate --force
 
-echo -e "${GREEN}Create admin user:${RESET}"
+echo "Create admin user"
 
 php artisan p:user:make
 
-echo -e "${GREEN}Panel installation finished.${RESET}"
+echo -e "${GREEN}Panel Installed${RESET}"
 }
 
-install_wings() {
+install_wings(){
 
 echo -e "${CYAN}Installing Docker...${RESET}"
 
@@ -110,38 +103,40 @@ EOF
 systemctl daemon-reload
 systemctl enable wings
 
+echo "Go To Admin/Nodes then go to your node/configuration then click on generate token copy panel link and token and also check the node id
+
 sudo wings configure
 
 systemctl start wings
 
-echo -e "${GREEN}Wings installed successfully.${RESET}"
+echo -e "${GREEN}Wings Installed${RESET}"
 }
 
-install_ssl() {
+install_ssl(){
 
-read -p "Enter your domain: " DOMAIN
+read -p "Enter domain: " DOMAIN
 
-apt install certbot python3-certbot-nginx -y
+apt install -y certbot python3-certbot-nginx
 
 certbot --nginx -d $DOMAIN --non-interactive --agree-tos --register-unsafely-without-email
 
-echo -e "${GREEN}SSL installed successfully.${RESET}"
+echo -e "${GREEN}SSL Installed${RESET}"
 }
 
-install_tunnel() {
+install_tunnel(){
 
-echo "1) Connect using token"
-echo "2) Run full command"
+echo "1) Connect with Token"
+echo "2) Run Full Command"
 
-read -p "Select option: " cf
+read -p "Select: " opt
 
 curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared
 
 chmod +x /usr/local/bin/cloudflared
 
-if [ "$cf" == "1" ]; then
+if [ "$opt" == "1" ]; then
 
-read -p "Enter Cloudflare Tunnel Token: " TOKEN
+read -p "Enter Tunnel Token: " TOKEN
 
 cloudflared service install $TOKEN
 
@@ -150,15 +145,15 @@ systemctl start cloudflared
 
 fi
 
-if [ "$cf" == "2" ]; then
+if [ "$opt" == "2" ]; then
 
-read -p "Paste full tunnel command: " CMD
+read -p "Paste command: " CMD
 
 $CMD
 
 fi
 
-echo -e "${GREEN}Cloudflare tunnel connected.${RESET}"
+echo -e "${GREEN}Cloudflare Tunnel Installed${RESET}"
 }
 
 while true
@@ -167,9 +162,9 @@ do
 banner
 menu
 
-read -p "Select an option: " option
+read -p "Select option: " choice
 
-case $option in
+case $choice in
 
 1)
 install_panel
