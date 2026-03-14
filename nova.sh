@@ -112,9 +112,7 @@ EOF
 systemctl daemon-reload
 systemctl enable wings
 
-echo "Paste your node config now"
-
-nano /etc/pterodactyl/config.yml
+sudo wings configure
 
 systemctl start wings
 
