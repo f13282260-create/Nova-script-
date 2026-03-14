@@ -18,6 +18,7 @@ echo -e "$BLUE"
 
 cat << "EOF
 
+echo "======================================"
 
 ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗
 ████╗  ██║██╔═══██╗██║   ██║██╔══██╗
@@ -25,6 +26,8 @@ cat << "EOF
 ██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║
 ██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║
 ╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝
+
+echo "======================================"
 
        Nova Cloud Official Installer
 
@@ -38,7 +41,7 @@ echo -e "$RED"
 echo "=================================="
 echo -e "$BLUE"
 echo " 1) Install Panel"
-echo " 2) Install Wings Node"
+echo " 2) Install Wings"
 echo " 3) Install SSL Certificate"
 echo " 4) Install Cloudflare Tunnel"
 echo " 5) Exit"
